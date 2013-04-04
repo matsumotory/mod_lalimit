@@ -47,53 +47,54 @@ LAlimitEnable <ON|OFF>
 ```
 
 ### Directive Config
+* `LAlimit <number of Limit Load Average>`
+    * Directory Access Control
+    
+        ```
+        <Directory "/var/www/html">
+            LAlimit 0.99
+        </Directory>
+        ```
 
-- `LAlimit <number of Limit Load Average>`
-  - Directory Access Control
-```
-<Directory "/var/www/html">
-     LAlimit 0.99
-</Directory>
-```
+    - File Access Control
+    
+      ```
+      <Files "abc.cgi">
+          LAlimit 10.02
+      </Files>
+      ```
 
-  - File Access Control
-```
-<Files "abc.cgi">
-     LAlimit 10.02
-</Files>
-```
+    - Files Regex Access Control
+    
+      ```
+      <FilesMatch ".*\.cgi$">
+          LAlimit 30
+      </FilesMatch>
+      ```
 
-  - Files Regex Access Control
-```
-<FilesMatch ".*\.cgi$">
-     LAlimit 30
-</FilesMatch>
-```
+    - File Access Control and Output log
+    
+      ```
+      <Files "mt.cgi">
+          LAlimit 0.51 log
+      </Files>
+      ```
 
-  - File Access Control and Output log
-```
-<Files "mt.cgi">
-     LAlimit 0.51 log
-</Files>
-```
+    - File Access Control Full Path Matching
+    
+      ```
+      example: symlinks /var/www/html/cgi/abc.cgi -> /var/www/cgi-bin/abc.cgi
+               symlinks /var/www/html/cgi/abc.cgi -> /var/www/cgi-bin2/abc.cgi
+                   when access /var/www/cgi-bin/abc.cgi or /var/www/cgi-bin2/abc.cgi
+                       control the cgi of realpath.
 
-  - File Access Control Full Path Matching
-```
-example: symlinks /var/www/html/cgi/abc.cgi -> /var/www/cgi-bin/abc.cgi
-         symlinks /var/www/html/cgi/abc.cgi -> /var/www/cgi-bin2/abc.cgi
-             when access /var/www/cgi-bin/abc.cgi or /var/www/cgi-bin2/abc.cgi
-                 control the cgi of realpath.
+      <Files "abc.cgi">
+           LAlimit 10.02 /var/www/html/cgi/abc.cgi
+      </Files>
+      ```
 
-<Files "abc.cgi">
-     LAlimit 10.02 /var/www/html/cgi/abc.cgi
-</Files>
-```
-
-  - Setting .htaccess write /www/hoge/fuga/.htaccess
-```
-LAlimit 10
-```
-
--------------------------------------------------------------------
-
-
+    - Setting .htaccess write /www/hoge/fuga/.htaccess
+    
+      ```
+      LAlimit 10
+      ```
